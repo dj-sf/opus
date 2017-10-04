@@ -8,5 +8,4 @@ describe 'AuthorsController' do
     expect(last_response.body).to include('authors/index.erb')
   end
 
-
 end

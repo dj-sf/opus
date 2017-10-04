@@ -27,8 +27,7 @@ describe "Publisher" do
       expect(@publisher.authors.count).to eq(1)
     end
 
-    it "can have many book" do
-
+    it "can have many books" do
       expect(@publisher.books.count).to eq(1)
     end
 
