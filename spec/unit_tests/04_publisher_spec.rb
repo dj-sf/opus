@@ -28,7 +28,7 @@ describe "Publisher" do
     end
 
     it "can have many book" do
-      binding.pry
+      
       expect(@publisher.books.count).to eq(1)
     end
 
