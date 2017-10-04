@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Genre" do
   before do
-    @genre = Genre.create(:name => "Horror")
+    @genre = Genre.create(:name => "Horror", :category => "Fiction")
     king = Author.create(:name => "Stephen King")
     viking = Publisher.create(:name => "Viking Press")
     it= Book.create(:name => "It")
@@ -21,6 +21,10 @@ describe "Genre" do
 
     it "can have a name" do
       expect(@genre.name).to eq("Horror")
+    end
+
+    it "can have a category" do
+      expect(@genre.category).to eq("Fiction")
     end
 
     it "can have many authors" do
