@@ -1,4 +1,4 @@
-class Book < ActiveRecord::
+class Book < ActiveRecord::Base
   include Slugify
   extend ClassSlugify
 

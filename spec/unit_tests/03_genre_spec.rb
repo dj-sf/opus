@@ -41,7 +41,7 @@ describe "Genre" do
 
     describe "Class methods" do
       it "given the slug can find a Genre" do
-        slug = "genre"
+        slug = "horror"
         expect((Genre.find_by_slug(slug)).name).to eq("Horror")
       end
     end

@@ -28,7 +28,7 @@ describe "Publisher" do
     end
 
     it "can have many book" do
-      
+
       expect(@publisher.books.count).to eq(1)
     end
 
@@ -43,7 +43,7 @@ describe "Publisher" do
     describe "Class methods" do
       it "given the slug can find an Publisher" do
         slug = "viking-press"
-        expect((Publisher.find_by_slug(slug)).name).to eq("viking-press")
+        expect((Publisher.find_by_slug(slug)).name).to eq("Viking Press")
       end
     end
 
