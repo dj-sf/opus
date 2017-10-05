@@ -4,7 +4,7 @@ describe "Book" do
   before do
     @author = Author.create(:name => "Stephen King")
 
-    @book= Book.create(:name => "It", :author => @author, :year_published => 1986)
+    @book= Book.create(:name => "It", :author => @author, :year_published => 1986, :has_been_read => 1)
 
     @genre = Genre.create(:name => "Horror")
 
@@ -30,6 +30,10 @@ describe "Book" do
 
     it "can have a year published" do
       expect(@book.year_published).to eq(1986)
+    end
+
+    it "can indicate whether it has been read" do
+      expect(@book.has_been_read).to eq(1)
     end
 
     it "can have a publisher" do
