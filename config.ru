@@ -7,4 +7,5 @@ end
 use AuthorsController
 use BooksController
 use GenresController
+use PublishersController
 run ApplicationController

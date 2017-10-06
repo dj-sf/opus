@@ -1,1 +1,5 @@
 <h2>Books</h2>
+
+<% @books.each do |b| %>
+  <a href='/books/<%= b.slug %>'><%= b.name %></a>, by <%= b.author.name %> <br>
+<% end %>
