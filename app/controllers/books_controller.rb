@@ -18,8 +18,6 @@ class BooksController < ApplicationController
   post '/books' do
     @books = Book.all
 
-    #wrap into findable module with .find_or_create_by(parameter) LATER! THIS CONTROLLER IS NOT DRY AT ALL!!!!
-    #validates that book being created does not exist
     if !Book.all.detect{ |b| b.name == params[:book][:name] }
       @book = Book.create(params[:book])
     else
@@ -29,18 +27,10 @@ class BooksController < ApplicationController
     end
 
     #associating book with author
-    if Author.all.detect {|a| a.name == params[:author][:name]}
-      @book.author = Author.find_by(:name => params[:author][:name])
-    else
-      @book.author = Author.create(:name => params[:author][:name])
-    end
+    @book.author = Author.find_or_create_by(:name => params[:author][:name])
 
     #associating book with publisher
-    if Publisher.all.detect {|p| p.name == params[:publisher][:name]}
-      @book.publisher = Publisher.find_by(:name => params[:publisher][:name])
-    else
-      @book.publisher = Publisher.create(:name => params[:publisher][:name])
-    end
+    @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
 
     #associating book with genres
     if !params[:genre][:name].empty?
@@ -63,6 +53,11 @@ class BooksController < ApplicationController
   end
 
   get '/books/:slug/edit' do
+    @books = Book.all
+    @authors = Author.all
+    @publishers = Publisher.all
+    @genres = Genre.all
+    @book = Book.find_by_slug(params[:slug])
     erb :'books/edit'
   end
 

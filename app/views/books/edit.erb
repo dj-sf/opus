@@ -1,0 +1,61 @@
+<h2 class='page_title'>Edit Book</h2>
+
+<form class="text" action="/books" method="post">
+  <label for="book_name">Book Name: </label><br>
+  <input type="text" id='book_name' name="book[name]" value = "<%= @book.name %>"><br>
+  <br>
+
+  <label for="book_has_been_read">Finished reading this book? </label><br>
+  <select class='text' name="book[has_been_read]" id='book_has_been_read'>
+    <% if @book.has_been_read == 0 %>
+      <option selected="selected" value=0>No</option>
+      <option value=1>Yes</option>
+    <% elsif @book.has_been_read == 1 %>
+      <option value=0>No</option>
+      <option selected="selected" value=1>Yes</option>
+    <% end %>
+
+  </select>
+  <br></br>
+  <label for="authorlist">Choose or create an author: </label><br>
+  <input list="book_author" name ="author[name]" id='authorlist' placeholder='type or select name'>
+  <datalist id='book_author'>
+    <% @authors.each do |a| %>
+      <% if @book.author.name == a.name %>
+      <% binding.pry %>
+      <option selected value="<%= a.name %>"><%= a.name %></option>
+      <% else %>
+      <option value="<%= a.name %>"><%= a.name %></option>
+      <% end %>
+    <% end %>
+  </datalist>
+  <br></br>
+
+  <label for="publisherlist">Choose or create a publisher: </label><br>
+  <input list='book_publisher' name="publisher[name]" id='publisherlist' placeholder = 'type or select name'>
+  <datalist id='book_publisher'>
+    <% @publishers.each do |a| %>
+      <option value="<%= a.name %>"><%= a.name %></option>
+    <% end %>
+  </datalist>
+  <br></br>
+
+  <label for="book_year_published">Year Published: </label><br>
+  <input type="text" id='book_year_published' name="book[year_published]" placeholder='year published'><br>
+  <br>
+
+  <label for="bookgenre">Choose an existing genre: </label><br>
+  <% @genres.each do |g| %>
+    <input type = 'checkbox' id='<%= g.id %>' name='book[genre_ids][]' value="<%= g.id %>"><%= g.name %></input> <br>
+  <% end %>
+  <br>
+  AND/OR create a new genre:
+  <input type="text" name="genre[name]" id= 'new_genre'>
+  <!-- eventually make it so you can add up to 3 new genres at once. -->
+  <br></br>
+
+
+  <input type="submit" value="Create New Book">
+</form>
+<br>
+or <a href="/books">Go Back</a>
