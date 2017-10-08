@@ -1,5 +1,21 @@
 <h2>Create New Book</h2>
 
 <form class="text" action="/books" method="post">
+  <label for="book_name">Book Name: </label>
+  <input type="text" id='book_name' name="book[name]" placeholder='Book Name'><br>
+  <br>
 
+  <label for="book_author">Book Author: </label>
+  <input type="text" id='book_author' name="book[author]" placeholder="Book Author"><br>
+  <br>
+
+  <label for="book_year_published">Year Published: </label>
+  <input type="text" id='book_year_published' name="book[year_published]" placeholder='Year Published'><br>
+  <br>
+
+  <label for="book_publisher">Publisher: </label>
+  <input type="text" id='book_publisher' name="book[publisher]" placeholder="Publisher"><br>
+  <br>
+
+  <input type="submit" value="Create New Book">
 </form>
