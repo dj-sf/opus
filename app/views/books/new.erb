@@ -1,31 +1,44 @@
 <h2>Create New Book</h2>
 
 <form class="text" action="/books" method="post">
-  <label for="book_name">Book Name: </label>
+  <label for="book_name">Book Name: </label><br>
   <input type="text" id='book_name' name="book[name]" placeholder='name'><br>
   <br>
 
-  <label for="authorlist">Choose or create an author: </label>
+  <label for="authorlist">Choose or create an author: </label><br>
   <input list="book_author"id='authorlist' placeholder='type or select name'>
-  <datalist id='book_author' name="book[author]">
+  <datalist id='book_author' name="author[name]">
     <% @authors.each do |a| %>
       <option value="<%= a.name %>"><%= a.name %></option>
     <% end %>
   </datalist>
   <br></br>
 
-  <label for="book_year_published">Year Published: </label>
-  <input type="text" id='book_year_published' name="book[year_published]" placeholder='Year Published'><br>
-  <br>
-
-  <label for="publisherlist">Choose or create a publisher: </label>
+  <label for="publisherlist">Choose or create a publisher: </label><br>
   <input list='book_publisher' id='publisherlist' placeholder = 'type or select name'>
-  <datalist id='book_publisher' name="book[publisher]">
+  <datalist id='book_publisher' name="publisher[name]">
     <% @publishers.each do |a| %>
       <option value="<%= a.name %>"><%= a.name %></option>
     <% end %>
   </datalist>
   <br></br>
+
+  <label for="book_year_published">Year Published: </label><br>
+  <input type="text" id='book_year_published' name="book[year_published]" placeholder='year published'><br>
+  <br>
+
+  <label for="bookgenre">Choose an existing genre: </label><br>
+  <% @genres.each do |g| %>
+    <input type = 'checkbox' name='book[genre_ids][]' value="<%= g.id %>"><%= g.name %></input> <br>
+  <% end %>
+  <br>
+  AND/OR create a new genre:
+  <input type="text" name="genre[name]" inpout>
+
+  <br></br>
+
+
+
 
   <input type="submit" value="Create New Book">
 </form>
