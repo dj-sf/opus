@@ -1,3 +1,5 @@
+require_relative '../../config/environment'
+
 class BooksController < ApplicationController
 
   get '/books' do
@@ -18,26 +20,32 @@ class BooksController < ApplicationController
 
     @book = Book.create(params[:book])
 
+    #associating book with author
     if Author.all.detect {|a| a.name == params[:author][:name]}
       @book.author = Author.find_by(:name => params[:author][:name])
     else
       @book.author = Author.create(:name => params[:author][:name])
     end
 
-    if Publisher.all.detect {|p| p.name = params[:publisher][:name]}
+    #associating book with publisher
+    if Publisher.all.detect {|p| p.name == params[:publisher][:name]}
       @book.publisher = Publisher.find_by(:name => params[:publisher][:name])
     else
       @book.publisher = Publisher.create(:name => params[:publisher][:name])
     end
 
-    if Genre.all.detect {|g| g.name = params[:genre][:name]}
-      @book.genre = Genre.find_by(:name => params[:genre][:name])
-    else
-      @book.genre = Genre.create(:name => params[:genre][:name])
+    #associating book with genres
+    if !params[:genre][:name].empty?
+      if !Genre.all.detect {|g| g.name == params[:genre][:name]}
+        @book.genres << Genre.create(:name => params[:genre][:name])
+      else
+        @book.genres << Genre.find_by(name: params[:genre][:name])
+      end
     end
 
+    #saving book
     @book.save
-    flash[:message] = "Successfully Created Book"
+    binding.pry
     redirect to "/books/#{@book.slug}"
   end
 

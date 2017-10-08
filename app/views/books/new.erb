@@ -6,8 +6,8 @@
   <br>
 
   <label for="authorlist">Choose or create an author: </label><br>
-  <input list="book_author"id='authorlist' placeholder='type or select name'>
-  <datalist id='book_author' name="author[name]">
+  <input list="book_author" name ="author[name]" id='authorlist' placeholder='type or select name'>
+  <datalist id='book_author'>
     <% @authors.each do |a| %>
       <option value="<%= a.name %>"><%= a.name %></option>
     <% end %>
@@ -15,8 +15,8 @@
   <br></br>
 
   <label for="publisherlist">Choose or create a publisher: </label><br>
-  <input list='book_publisher' id='publisherlist' placeholder = 'type or select name'>
-  <datalist id='book_publisher' name="publisher[name]">
+  <input list='book_publisher' name="publisher[name]" id='publisherlist' placeholder = 'type or select name'>
+  <datalist id='book_publisher'>
     <% @publishers.each do |a| %>
       <option value="<%= a.name %>"><%= a.name %></option>
     <% end %>
@@ -29,7 +29,7 @@
 
   <label for="bookgenre">Choose an existing genre: </label><br>
   <% @genres.each do |g| %>
-    <input type = 'checkbox' name='book[genre_ids][]' value="<%= g.id %>"><%= g.name %></input> <br>
+    <input type = 'checkbox' id='<%= g.id %>' name='book[genre_ids][]' value="<%= g.id %>"><%= g.name %></input> <br>
   <% end %>
   <br>
   AND/OR create a new genre:

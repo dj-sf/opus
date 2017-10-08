@@ -47,7 +47,6 @@ context "books/show.erb" do
   end
 
   it "displays a book's title" do
-    binding.pry
     expect(page).to have_content(@book.name)
   end
 #
