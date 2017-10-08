@@ -74,5 +74,6 @@ class BooksController < ApplicationController
     redirect to "/books"
   end
 
+  #later add functionality that says if the author has no books, the author instance is deleted
 
 end
