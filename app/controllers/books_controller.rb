@@ -7,6 +7,8 @@ class BooksController < ApplicationController
 
   get '/books/new' do
     @books = Book.all
+    @authors = Author.all
+    @publishers = Publisher.all
     erb :'books/new'
   end
 

@@ -5,16 +5,32 @@
   <input type="text" id='book_name' name="book[name]" placeholder='Book Name'><br>
   <br>
 
-  <label for="book_author">Book Author: </label>
-  <input type="text" id='book_author' name="book[author]" placeholder="Book Author"><br>
-  <br>
+<label for="existing_author">Choose an existing author: </label>
+<select id='existing_author' name="book[author]">
+  <% @authors.each do |a| %>
+    <option value="<%= a.name %>"><%= a.name %></option>
+  <% end %>
+</select>
+<br></br>
 
-  <label for="book_year_published">Year Published: </label>
-  <input type="text" id='book_year_published' name="book[year_published]" placeholder='Year Published'><br>
-  <br>
+<label for="book_author">Or create a new author: </label>
+<input type="text" id='book_author' name="author[name]" placeholder="New Author"><br>
+<br>
+
+<label for="book_year_published">Year Published: </label>
+<input type="text" id='book_year_published' name="book[year_published]" placeholder='Year Published'><br>
+<br>
+
+<label for="existing_publisher">Choose an existing publisher: </label>
+<select id='existing_publisher' name="book[publisher]">
+  <% @publishers.each do |a| %>
+    <option value="<%= a.name %>"><%= a.name %></option>
+  <% end %>
+</select>
+<br></br>
 
   <label for="book_publisher">Publisher: </label>
-  <input type="text" id='book_publisher' name="book[publisher]" placeholder="Publisher"><br>
+  <input type="text" id='book_publisher' name="publisher[name]" placeholder="Publisher"><br>
   <br>
 
   <input type="submit" value="Create New Book">
