@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Book Forms" do
+describe "New Book Form" do
 
   let(:existing_book_name) {"Existing Books"}
   let(:author_1_name) { "Author Man" }
@@ -47,7 +47,7 @@ describe "Book Forms" do
         }.not_to change(Book, :count)
       end
       #DO THE BELOW LATER
-      # it "navigates to the book's show page" do
+      # it "reloads the current page" do
       # end
       #
       # it "indicates with a flash message that the book already exists" do
@@ -211,6 +211,38 @@ describe "Book Forms" do
         fill_in "publisherlist", with: existing_publisher_name
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"}.not_to change(Genre, :count)
+      end
+    end
+
+
+    context "when indicating if read" do
+      it "correctly records whether it was read" do
+        fill_in "Book Name", with: book_1_name
+        fill_in "authorlist", with: author_3_name
+        check genre_2.id
+        check genre_1.id
+        page.select 'Yes', :from => 'book_has_been_read'
+        fill_in "new_genre", with: genre_2_name
+        fill_in "publisherlist", with: existing_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"
+
+        the_book = Book.find_by(name: book_1_name)
+        expect(the_book.has_been_read).to equal(1)
+      end
+
+      it "displays that the book has been read on books/show.erb" do
+        fill_in "Book Name", with: book_1_name
+        fill_in "authorlist", with: author_3_name
+        check genre_2.id
+        check genre_1.id
+        page.select 'Yes', :from => 'book_has_been_read'
+        fill_in "new_genre", with: genre_2_name
+        fill_in "publisherlist", with: existing_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"
+
+        expect(page).to have_content("You have read this book")
       end
 
     end
