@@ -18,7 +18,15 @@ class BooksController < ApplicationController
   post '/books' do
     @books = Book.all
 
-    @book = Book.create(params[:book])
+    #wrap into findable module with .find_or_create_by(parameter) LATER! THIS CONTROLLER IS NOT DRY AT ALL!!!!
+    #validates that book being created does not exist
+    if !Book.all.detect{ |b| b.name == params[:book][:name] }
+      @book = Book.create(params[:book])
+    else
+      @book = Book.find_by(:name => params[:book][:name])
+      #set alternate flash message here LATER
+      redirect to "/books/#{@book.slug}"
+    end
 
     #associating book with author
     if Author.all.detect {|a| a.name == params[:author][:name]}
@@ -45,7 +53,6 @@ class BooksController < ApplicationController
 
     #saving book
     @book.save
-    binding.pry
     redirect to "/books/#{@book.slug}"
   end
 

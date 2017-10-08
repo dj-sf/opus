@@ -5,6 +5,12 @@
   <input type="text" id='book_name' name="book[name]" placeholder='name'><br>
   <br>
 
+  <label for="book_has_been_read">Finished reading this book? </label><br>
+  <select class='text' name="book[has_been_read]" id='book_has_been_read'>
+    <option value=0>No</option>
+    <option value=1>Yes</option>
+  </select>
+  <br></br>
   <label for="authorlist">Choose or create an author: </label><br>
   <input list="book_author" name ="author[name]" id='authorlist' placeholder='type or select name'>
   <datalist id='book_author'>
@@ -34,10 +40,8 @@
   <br>
   AND/OR create a new genre:
   <input type="text" name="genre[name]" inpout>
-
+  <!-- eventually make it so you can add up to 3 new genres at once! -->
   <br></br>
-
-
 
 
   <input type="submit" value="Create New Book">
