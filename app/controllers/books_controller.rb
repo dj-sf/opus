@@ -12,6 +12,7 @@ class BooksController < ApplicationController
 
   get '/books/:slug' do
     @books = Book.all
+    @book = Book.find_by_slug(params[:slug])
     erb :'books/show'
   end
 

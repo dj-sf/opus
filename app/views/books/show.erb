@@ -1,0 +1,9 @@
+<h2><%= @book.name %></h2>
+
+By: <a href='/authors/<%= @book.author.slug %>'><%= @book.author.name %></a> <br>
+Publisher: <a href='/publishers/<%= @book.publisher.slug %>'><%= @book.publisher.name %></a> <br>
+<br>
+Genres: <br>
+<% @book.genres.each do |g| %>
+  <a href='/genres/<%= g.slug %>'><%= g.name %></a><br>
+<% end %>

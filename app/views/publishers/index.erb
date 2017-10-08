@@ -1,1 +1,4 @@
 <h2>Publishers</h2>
+<% @publishers.each do |p| %>
+  <a href="/publishers/<%= p.slug %>"> <%= p.name %></a><br>
+<% end %>

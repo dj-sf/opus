@@ -1,0 +1,19 @@
+<h2><%= @publisher.name %></h2>
+
+Books: <br>
+<% @publisher.books.each do |b| %>
+  <a href="/books/<%= b.slug %>"><%= b.name %></a><br>
+<% end %>
+<br>
+
+Authors: <br>
+<% @publisher.authors.each do |a| %>
+  <a href='/authors/<%= a.slug %>'><%= a.name %></a><br>
+<% end %>
+<br>
+
+Genres: <br>
+<% @publisher.genres.each do |g| %>
+  <a href='/genres/<%= g.slug %>'><%= g.name %></a><br>
+<% end %>
+<br>
