@@ -10,6 +10,7 @@ describe "Book Forms" do
   let(:existing_publisher_name) {"Existing Publisher"}
   let(:genre_1_name) { "Horror" }
   let(:genre_2_name) { "Romance" }
+  let(:new_genre_name) {"New Genre"}
   let(:genre_category) {"Fiction"}
   let(:year_published_1) {1997}
   let(:year_published_2) {1998}
@@ -163,21 +164,55 @@ describe "Book Forms" do
       end
     context "when selecting genres" do
       it "displays those genres on the book page" do
+        fill_in "Book Name", with: book_1_name
+        fill_in "authorlist", with: author_3_name
+        check genre_2.id
+        check genre_1.id
+        fill_in "new_genre", with: new_genre_name
+        fill_in "publisherlist", with: existing_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"
+
+        expect(page).to have_content(genre_1_name)
+        expect(page).to have_content(genre_2_name)
+        expect(page).to have_content(new_genre_name)
       end
 
       it "creates a new genre when the new genre field is filled in" do
-
+        expect{
+        fill_in "Book Name", with: book_1_name
+        fill_in "authorlist", with: author_3_name
+        check genre_2.id
+        check genre_1.id
+        fill_in "new_genre", with: new_genre_name
+        fill_in "publisherlist", with: existing_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"}.to change(Genre, :count).by(1)
       end
-      it "does not create a new genre when the new genre field is not filled in" do
 
+      it "does not create a new genre when the new genre field is not filled in" do
+        expect{
+        fill_in "Book Name", with: book_1_name
+        fill_in "authorlist", with: author_3_name
+        check genre_2.id
+        check genre_1.id
+        fill_in "publisherlist", with: existing_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"}.not_to change(Genre, :count)
       end
 
       it "uses an existing genre if a pre-existing genre name is entered as a new genre" do
-        
+        expect{
+        fill_in "Book Name", with: book_1_name
+        fill_in "authorlist", with: author_3_name
+        check genre_2.id
+        check genre_1.id
+        fill_in "new_genre", with: genre_2_name
+        fill_in "publisherlist", with: existing_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"}.not_to change(Genre, :count)
       end
 
-      end
     end
   end
-
 end
