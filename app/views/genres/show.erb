@@ -1,19 +1,19 @@
 <h2><%= @genre.name %></h2>
 
 Books: <br>
-<% @genre.books.each do |b| %>
+<% @genre.books.uniq.each do |b| %>
   <a href='/books/<%= b.slug %>'><%= b.name %></a> <br>
 <% end %>
 <br>
 
 Authors: <br>
-<% @genre.authors.each do |a| %>
+<% @genre.authors.uniq.each do |a| %>
   <a href='/authors/<%= a.slug %>'><%= a.name %></a><br>
 <% end %>
 <br>
 
 Publishers: <br>
-<% @genre.publishers.each do |p| %>
+<% @genre.publishers.uniq.each do |p| %>
   <a href='/publishers/<%= p.slug %>'><%= p.name %></a><br>
 <% end %>
 <br>
