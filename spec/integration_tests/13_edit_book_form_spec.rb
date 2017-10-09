@@ -64,12 +64,34 @@ describe "Book edit form" do
       expect(Book.find(@id).author.name).to eq(changed_author_name)
     end
 
+    it "creates a new author when a new author name is input" do
+      expect{
+        fill_in "new_book_author", :with => changed_author_name
+        click_on 'Edit Book'
+      }.to change(Author, :count).by(1)
+    end
+
     it "saves changes to the author's name when a pre-existing author name is selected" do
       select preexisting_author_name, :from => "book_author"
       click_on 'Edit Book'
       expect(Book.find(@id).author.name).to eq(preexisting_author_name)
     end
 
+    it "does not create a new author when choosing a preexisting_author_name" do
+      expect{
+      select preexisting_author_name, :from => "book_author"
+      click_on 'Edit Book'}.not_to change(Author, :count)
+    end
+  end
+
+  context "editing a book's publisher" do
+    xit "preselects the unchanged book's publisher" do
+
+    end
+
+    xit "saves changes to the publisher's name when a new publisher name is created" do
+
+    end
   end
 
 end
