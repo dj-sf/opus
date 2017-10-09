@@ -22,7 +22,7 @@
   <datalist id='book_author'>
     <% @authors.each do |a| %>
       <% if @book.author.name == a.name %>
-      <% binding.pry %>
+      <%  %>
       <option selected value="<%= a.name %>"><%= a.name %></option>
       <% else %>
       <option value="<%= a.name %>"><%= a.name %></option>

@@ -11,22 +11,30 @@
     <option value=1>Yes</option>
   </select>
   <br></br>
-  <label for="authorlist">Choose or create an author: </label><br>
-  <input list="book_author" name ="author[name]" id='authorlist' placeholder='type or select name'>
-  <datalist id='book_author'>
+
+  <label for="book_author">Choose an existing author: </label><br>
+  <select class ="text" id='book_author' name="book[author]" placeholder= 'select an author'>
+    <option value="">- select an author -</option>
     <% @authors.each do |a| %>
       <option value="<%= a.name %>"><%= a.name %></option>
     <% end %>
-  </datalist>
+  </select>
+  <br></br>
+  OR create a new author: <br>
+  <input type="text" id='new_book_author' name="author[name]" placeholder='new author name'>
   <br></br>
 
-  <label for="publisherlist">Choose or create a publisher: </label><br>
-  <input list='book_publisher' name="publisher[name]" id='publisherlist' placeholder = 'type or select name'>
-  <datalist id='book_publisher'>
-    <% @publishers.each do |a| %>
-      <option value="<%= a.name %>"><%= a.name %></option>
+  <label for="book_publisher">Choose an existing publisher: </label><br>
+  <select name= "book[publisher]" id='book_publisher'>
+    <option value="">- select a publisher -</option>
+    <% @publishers.each do |p| %>
+      <option value="<%= p.name %>"><%= p.name %></option>
     <% end %>
-  </datalist>
+  </select>
+  <br></br>
+
+  OR create a new publisher: <br>
+  <input type="text" name="publisher[name]" id= 'new_publisher_name' placeholder='new publisher name'>
   <br></br>
 
   <label for="book_year_published">Year Published: </label><br>
@@ -40,7 +48,7 @@
   <br>
   AND/OR create a new genre:
   <input type="text" name="genre[name]" id= 'new_genre'>
-  <!-- eventually make it so you can add up to 3 new genres at once. -->
+  <!-- eventually make it so yo u can add up to 3 new genres at once. -->
   <br></br>
 
 

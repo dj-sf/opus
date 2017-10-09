@@ -17,9 +17,8 @@ class BooksController < ApplicationController
 
   post '/books' do
     @books = Book.all
-
     if !Book.all.detect{ |b| b.name == params[:book][:name] }
-      @book = Book.create(params[:book])
+      @book = Book.create(name: params[:book][:name], has_been_read: params[:book][:has_been_read])
     else
       @book = Book.find_by(:name => params[:book][:name])
       #set alternate flash message here LATER
@@ -27,22 +26,40 @@ class BooksController < ApplicationController
     end
 
     #associating book with author
-    @book.author = Author.find_or_create_by(:name => params[:author][:name])
 
-    #associating book with publisher
-    @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
+    if !params[:author][:name].empty?
+      @book.author = Author.find_or_create_by(:name => params[:author][:name])
+    else
+      @book.author = Author.find_by(:name => params[:book][:author])
+    end
 
-    #associating book with genres
+
+    #associating book with existing publisher
+    if !params[:publisher][:name].empty?
+      @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
+    else
+      @book.publisher = Publisher.find_by(:name => params[:book][:publisher])
+    end
+
+    #associating a book with existing genres
+    params[:book][:genre_ids].each do |g|
+      @book.genres << Genre.find(g)
+    end
+
+    #associating book with a new genre
     if !params[:genre][:name].empty?
       if !Genre.all.detect {|g| g.name == params[:genre][:name]}
         @book.genres << Genre.create(:name => params[:genre][:name])
+
       else
         @book.genres << Genre.find_by(name: params[:genre][:name])
+
       end
     end
 
     #saving book
     @book.save
+
     redirect to "/books/#{@book.slug}"
   end
 
