@@ -1,57 +1,71 @@
-<h2 class='page_title'>Edit Book</h2>
+<h2 class='page_title'>Create New Book</h2>
 
 <form class="text" action="/books" method="post">
   <label for="book_name">Book Name: </label><br>
-  <input type="text" id='book_name' name="book[name]" value = "<%= @book.name %>"><br>
+  <input type="text" id='book_name' name="book[name]" value= "<%= @book.name %>"><br>
   <br>
 
   <label for="book_has_been_read">Finished reading this book? </label><br>
   <select class='text' name="book[has_been_read]" id='book_has_been_read'>
-    <% if @book.has_been_read == 0 %>
-      <option selected="selected" value=0>No</option>
-      <option value=1>Yes</option>
-    <% elsif @book.has_been_read == 1 %>
+    <% if @book.has_been_read == 1 %>
       <option value=0>No</option>
-      <option selected="selected" value=1>Yes</option>
+      <option selected = "selected" value=1>Yes</option>
+    <% else %>
+      <option selected = "selected" value=0>No</option>
+      <option value=1>Yes</option>
     <% end %>
-
   </select>
   <br></br>
-  <label for="authorlist">Choose or create an author: </label><br>
-  <input list="book_author" name ="author[name]" id='authorlist' placeholder='type or select name'>
-  <datalist id='book_author'>
+
+  <label for="book_author">Choose an existing author: </label><br>
+  <select class ="text" id='book_author' name="book[author]" placeholder= 'select an author'>
+    <option value="">- select an author -</option>
     <% @authors.each do |a| %>
-      <% if @book.author.name == a.name %>
-      <%  %>
-      <option selected value="<%= a.name %>"><%= a.name %></option>
+      <% if a.name == @book.author.name %>
+        <option selected = "selected" value="<%= a.name %>"><%= a.name %></option>
       <% else %>
-      <option value="<%= a.name %>"><%= a.name %></option>
+        <option value="<%= a.name %>"><%= a.name %></option>
       <% end %>
     <% end %>
-  </datalist>
+  </select>
+  <br></br>
+  OR create a new author: <br>
+  <input type="text" id='new_book_author' name="author[name]" placeholder='new author name'>
   <br></br>
 
-  <label for="publisherlist">Choose or create a publisher: </label><br>
-  <input list='book_publisher' name="publisher[name]" id='publisherlist' placeholder = 'type or select name'>
-  <datalist id='book_publisher'>
-    <% @publishers.each do |a| %>
-      <option value="<%= a.name %>"><%= a.name %></option>
+  <label for="book_publisher">Choose an existing publisher: </label><br>
+  <select name= "book[publisher]" id='book_publisher'>
+    <option value="">- select a publisher -</option>
+    <% @publishers.each do |p| %>
+      <% if p.name == @book.publisher.name %>
+        <option selected = "selected" value="<%= p.name %>"><%= p.name %></option>
+      <% else %>
+        <option value="<%= p.name %>"><%= p.name %></option>
+      <% end %>
     <% end %>
-  </datalist>
+  </select>
+  <br></br>
+
+  OR create a new publisher: <br>
+  <input type="text" name="publisher[name]" id= 'new_publisher_name' placeholder='new publisher name'>
   <br></br>
 
   <label for="book_year_published">Year Published: </label><br>
-  <input type="text" id='book_year_published' name="book[year_published]" placeholder='year published'><br>
+  <input type="text" id='book_year_published' name="book[year_published]" value = "<%= @book.year_published %>" placeholder='year published'><br>
   <br>
 
   <label for="bookgenre">Choose an existing genre: </label><br>
   <% @genres.each do |g| %>
-    <input type = 'checkbox' id='<%= g.id %>' name='book[genre_ids][]' value="<%= g.id %>"><%= g.name %></input> <br>
+    <% if @book.genres.include?(g) %>
+      <input type = 'checkbox' id='<%= g.id %>' name='book[genre_ids][]' value="<%= g.id %>" checked><%= g.name %></input> <br>
+    <% else %>
+      <input type = 'checkbox' id='<%= g.id %>' name='book[genre_ids][]' value="<%= g.id %>"><%= g.name %></input> <br>
+    <% end %>
   <% end %>
   <br>
   AND/OR create a new genre:
   <input type="text" name="genre[name]" id= 'new_genre'>
-  <!-- eventually make it so you can add up to 3 new genres at once. -->
+  <!-- eventually make it so yo u can add up to 3 new genres at once. -->
   <br></br>
 
 

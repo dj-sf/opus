@@ -57,6 +57,10 @@ describe "Books Integration" do
     it "author is displayed as a link going to that author's page" do
       expect(page).to have_css("a[href='/authors/#{author_2.slug}']")
     end
+
+    it "has a button linking to an edit form" do
+      expect(page).to have_css("a[href='/books/#{book_2.slug}/edit']")
+    end
   #
   #
   #   it "links each genre listing to that genre's page" do
