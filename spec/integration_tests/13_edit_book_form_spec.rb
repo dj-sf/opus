@@ -85,13 +85,31 @@ describe "Book edit form" do
   end
 
   context "editing a book's publisher" do
-    xit "preselects the unchanged book's publisher" do
+    it "preselects the unchanged book's publisher" do
+      expect(find_field('book_publisher').value).to eq original_publisher_name
+    end
+
+    it "saves changes to the publisher's name when a new publisher name is created" do
+      fill_in "new_publisher_name", :with => changed_publisher_name
+      click_on 'Edit Book'
+      expect(Book.find(@id).publisher.name).to eq(changed_publisher_name)
+    end
+
+    it "creates a new publisher when a new publisher name is passed in" do
+      expect{
+        fill_in "new_publisher_name", :with => changed_publisher_name
+        click_on 'Edit Book'
+      }.to change(Publisher, :count).by(1)
+    end
+
+
+    xit "saves changes to the publisher's name when a pre-existing publisher name is selected" do
+    end
+
+    xit "does not create a new publisher when choosing a preexisting publisher name" do
 
     end
 
-    xit "saves changes to the publisher's name when a new publisher name is created" do
-
-    end
   end
 
 end

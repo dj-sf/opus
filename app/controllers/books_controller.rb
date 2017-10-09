@@ -94,12 +94,12 @@ class BooksController < ApplicationController
     end
     #
     #
-    # #associating book with existing publisher
-    # if !params[:publisher][:name].empty?
-    #   @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
-    # else
-    #   @book.publisher = Publisher.find_by(:name => params[:book][:publisher])
-    # end
+    #associating book with existing publisher
+    if !params[:publisher][:name].empty?
+      @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
+    else
+      @book.publisher = Publisher.find_by(:name => params[:book][:publisher])
+    end
     #
     # #associating a book with existing genres
     # params[:book][:genre_ids].each do |g|
