@@ -245,11 +245,11 @@ describe "New Book Form" do
       it "creates a new genre when the new genre field is filled in" do
         expect{
         fill_in "book_name", with: book_1_name
-        fill_in "new_book_author", with: author_3_name
         check genre_2.id
         check genre_1.id
         fill_in "new_genre", with: new_genre_name
-        fill_in "book_publisher", with: existing_publisher_name
+        select existing_publisher_name, :from => "book_publisher"
+        select existing_author_name, :from => "book_author"
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"}.to change(Genre, :count).by(1)
       end
@@ -257,10 +257,10 @@ describe "New Book Form" do
       it "does not create a new genre when the new genre field is not filled in" do
         expect{
         fill_in "book_name", with: book_1_name
-        fill_in "new_book_author", with: author_3_name
         check genre_2.id
         check genre_1.id
-        fill_in "book_publisher", with: existing_publisher_name
+        select existing_publisher_name, :from => "book_publisher"
+        select existing_author_name, :from => "book_author"
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"}.not_to change(Genre, :count)
       end
@@ -268,11 +268,11 @@ describe "New Book Form" do
       it "uses an existing genre if a pre-existing genre name is entered as a new genre" do
         expect{
         fill_in "book_name", with: book_1_name
-        fill_in "new_book_author", with: author_3_name
         check genre_2.id
         check genre_1.id
         fill_in "new_genre", with: genre_2_name
-        fill_in "book_publisher", with: existing_publisher_name
+        select existing_publisher_name, :from => "book_publisher"
+        select existing_author_name, :from => "book_author"
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"}.not_to change(Genre, :count)
       end
@@ -282,12 +282,12 @@ describe "New Book Form" do
     context "when indicating if read" do
       it "correctly records whether it was read" do
         fill_in "book_name", with: book_1_name
-        fill_in "new_book_author", with: author_3_name
         check genre_2.id
         check genre_1.id
         page.select 'Yes', :from => 'book_has_been_read'
         fill_in "new_genre", with: genre_2_name
-        fill_in "book_publisher", with: existing_publisher_name
+        select existing_publisher_name, :from => "book_publisher"
+        select existing_author_name, :from => "book_author"
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"
 
@@ -297,12 +297,12 @@ describe "New Book Form" do
 
       it "displays that the book has been read on books/show.erb" do
         fill_in "book_name", with: book_1_name
-        fill_in "new_book_author", with: author_3_name
         check genre_2.id
         check genre_1.id
         page.select 'Yes', :from => 'book_has_been_read'
         fill_in "new_genre", with: genre_2_name
-        fill_in "book_publisher", with: existing_publisher_name
+        select existing_publisher_name, :from => "book_publisher"
+        select existing_author_name, :from => "book_author"
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"
 
