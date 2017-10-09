@@ -13,7 +13,7 @@ Genres: <br>
 <br>
 
 Publishers: <br>
-<% @author.publishers.each do |p| %>
+<% @author.publishers.uniq.each do |p| %>
   <a href='/publishers/<%= p.slug %>'><%= p.name %></a><br>
 <% end %>
 <br>
