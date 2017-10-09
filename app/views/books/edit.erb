@@ -1,6 +1,7 @@
-<h2 class='page_title'>Create New Book</h2>
+<h2 class='page_title'>Edit Book</h2>
 
-<form class="text" action="/books" method="post">
+<form class="text" action="/books/<%= @book.slug %>" method="post">
+  <input type="hidden" name="_method" value="patch">
   <label for="book_name">Book Name: </label><br>
   <input type="text" id='book_name' name="book[name]" value= "<%= @book.name %>"><br>
   <br>
@@ -68,8 +69,7 @@
   <!-- eventually make it so yo u can add up to 3 new genres at once. -->
   <br></br>
 
-
-  <input type="submit" value="Create New Book">
+  <input type="submit" value="Edit Book">
 </form>
 <br>
 or <a href="/books">Go Back</a>
