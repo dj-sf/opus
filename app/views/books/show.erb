@@ -6,7 +6,7 @@ Publisher: <a href='/publishers/<%= @book.publisher.slug %>'><%= @book.publisher
 Publication Year: <%= @book.year_published %> <br>
 <br>
 Genres: <br>
-<% @book.genres.each do |g| %>
+<% @book.genres.uniq.each do |g| %>
   <a href='/genres/<%= g.slug %>'><%= g.name %></a><br>
 <% end %>
 <br>

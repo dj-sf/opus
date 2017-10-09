@@ -7,7 +7,7 @@ Books: <br>
 <br>
 
 Genres: <br>
-<% @author.genres.each do |g| %>
+<% @author.genres.uniq.each do |g| %>
   <a href='/genres/<%= g.slug %>'><%= g.name %></a><br>
 <% end %>
 <br>
