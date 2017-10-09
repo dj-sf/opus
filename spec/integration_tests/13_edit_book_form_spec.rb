@@ -5,6 +5,7 @@ describe "Book edit form" do
   let(:original_book_name) {"The Book"}
   let(:changed_book_name) {"The Changed Book"}
   let(:original_author_name) {"Authorman"}
+  let(:preexisting_author_name) {"Preexisting Author"}
   let(:changed_author_name) {"Changed Authorman"}
   let(:original_publisher_name) {"Original Publishing"}
   let(:changed_publisher_name) {"Unoriginal Publishing"}
@@ -13,6 +14,7 @@ describe "Book edit form" do
 
   let!(:original_publisher) {Publisher.create(name: original_publisher_name)}
   let!(:original_author) {Author.create(name: original_author_name)}
+  let!(:preexisting_author){Author.create(name: preexisting_author_name)}
   let!(:original_book) {Book.create(name: original_book_name)}
   let!(:genre_1) {Genre.create(name: "Fantasy")}
   let!(:genre_2) {Genre.create(name: "History")}
@@ -60,6 +62,12 @@ describe "Book edit form" do
       fill_in "new_book_author", :with => changed_author_name
       click_on 'Edit Book'
       expect(Book.find(@id).author.name).to eq(changed_author_name)
+    end
+
+    it "saves changes to the author's name when a pre-existing author name is selected" do
+      select preexisting_author_name, :from => "book_author"
+      click_on 'Edit Book'
+      expect(Book.find(@id).author.name).to eq(preexisting_author_name)
     end
 
   end
