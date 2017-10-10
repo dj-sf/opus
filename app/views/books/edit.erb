@@ -37,6 +37,7 @@
   <label for="book_publisher">Choose an existing publisher: </label><br>
   <select name= "book[publisher]" id='book_publisher'>
     <option value="">- select a publisher -</option>
+    <!-- Should add a test making sure that an item with a blank name cannot be added -->
     <% @publishers.each do |p| %>
       <% if p.name == @book.publisher.name %>
         <option selected = "selected" value="<%= p.name %>"><%= p.name %></option>

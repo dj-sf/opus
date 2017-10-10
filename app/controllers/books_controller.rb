@@ -125,7 +125,7 @@ class BooksController < ApplicationController
 
     # editing book's publication year
     @book.year_published = params[:book][:year_published]
-
+    @book.has_been_read = params[:book][:has_been_read]
     #saving book
     @book.save
 

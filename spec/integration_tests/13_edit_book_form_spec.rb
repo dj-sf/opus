@@ -12,12 +12,13 @@ describe "Book edit form" do
   let(:changed_publisher_name) {"Unoriginal Publishing"}
   let(:first_edition_publishing) {1993}
   let(:second_edition_publishing) {1995}
+  let(:number_1) {1}
 
   let!(:original_publisher) {Publisher.create(name: original_publisher_name)}
   let!(:preexisting_publisher) {Publisher.create(name: preexisting_publisher_name)}
   let!(:original_author) {Author.create(name: original_author_name)}
   let!(:preexisting_author){Author.create(name: preexisting_author_name)}
-  let!(:original_book) {Book.create(name: original_book_name)}
+  let!(:original_book) {Book.create(name: original_book_name, has_been_read: 0)}
   let!(:genre_1) {Genre.create(name: "Fantasy")}
   let!(:genre_2) {Genre.create(name: "History")}
   let!(:genre_3) {Genre.create(name: "Thriller")}
@@ -178,6 +179,16 @@ describe "Book edit form" do
         fill_in "new_genre", with: genre_3.name
         click_on 'Edit Book'
       }.not_to change(Genre, :count)
+    end
+  end
+
+  context "editing book read status" do
+    it "changes book-read status" do
+      binding.pry
+      find("option[value='1']").select_option
+      click_on 'Edit Book'
+      binding.pry
+      expect(Book.find(@id).has_been_read).to eq(1)
     end
   end
 end
