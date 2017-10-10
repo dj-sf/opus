@@ -17,5 +17,9 @@ Genres: <br>
 <% else %>
   <em>You have <u>not</u> read this book.</em><br>
 <% end %>
-<br>  
-<a href="/books/<%= @book.slug %>/edit">Edit Book</a>
+<br>
+<a href="/books/<%= @book.slug %>/edit"><input type="submit" value="Edit Book"></a>
+<form action="/books/<%= @book.slug %>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete Book">
+</form>

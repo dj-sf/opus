@@ -96,8 +96,7 @@ class BooksController < ApplicationController
     else
       @book.author = Author.find_by(:name => params[:book][:author])
     end
-    #
-    #
+
     #associating book with existing publisher
     if !params[:publisher][:name].empty?
       @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
@@ -128,12 +127,15 @@ class BooksController < ApplicationController
     @book.has_been_read = params[:book][:has_been_read]
     #saving book
     @book.save
-
-
     redirect to "/books/#{params[:slug]}"
   end
 
-  delete '/books/:slug' do
+  delete '/books/:slug/delete' do
+    @book = Book.find_by_slug(params[:slug])
+    @book.delete
+    binding.pry
+    @book.author.delete if @book.author.books.count == 0
+    binding.pry
     redirect to "/books"
   end
 
