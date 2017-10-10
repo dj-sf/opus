@@ -165,8 +165,19 @@ describe "Book edit form" do
       }.to change(Genre, :count).by(1)
     end
 
-    xit "does not create a new genre when a new genre box is checked" do
+    it "does not create a new genre when a new genre box is checked" do
+      expect{
+        check genre_3.id
+        click_on 'Edit Book'
+      }.not_to change(Genre, :count)
+    end
 
+    it "does not create a new genre when an identical one is both checked and added via the new genre text field" do
+      expect{
+        check genre_3.id
+        fill_in "new_genre", with: genre_3.name
+        click_on 'Edit Book'
+      }.not_to change(Genre, :count)
     end
   end
 end
