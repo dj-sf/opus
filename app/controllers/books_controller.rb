@@ -19,9 +19,10 @@ class BooksController < ApplicationController
     @books = Book.all
     if !Book.all.detect{ |b| b.name == params[:book][:name] }
       @book = Book.create(name: params[:book][:name], has_been_read: params[:book][:has_been_read])
-      
+
     else
       @book = Book.find_by(:name => params[:book][:name])
+      
       #set alternate flash message here LATER
       redirect to "/books/#{@book.slug}"
     end
@@ -54,11 +55,13 @@ class BooksController < ApplicationController
 
       else
         @book.genres << Genre.find_by(name: params[:genre][:name])
-
       end
     end
 
-    #saving book
+    #editing book's publication year
+    # binding.pry
+    @book.year_published = params[:book][:year_published]
+    # saving book
     @book.save
 
     redirect to "/books/#{@book.slug}"
@@ -115,6 +118,9 @@ class BooksController < ApplicationController
     #     @book.genres << Genre.find_by(name: params[:genre][:name])
     #   end
     # end
+
+    # editing book's publication year
+    @book.year_published = params[:book][:year_published]
 
     #saving book
     @book.save

@@ -130,6 +130,4 @@ describe "Book edit form" do
       expect(Book.find(@id).year_published).to eq(second_edition_publishing)
     end
   end
-
-
 end

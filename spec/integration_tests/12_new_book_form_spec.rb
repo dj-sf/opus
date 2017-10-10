@@ -309,8 +309,27 @@ describe "New Book Form" do
         expect(page).to have_content("You have read this book")
       end
 
-      xit "correctly adds the year published" do
-        
+      it "correctly adds the year published" do
+        fill_in "book_name", with: book_1_name
+        fill_in "new_book_author", with: author_3_name
+        check genre_2.id
+        fill_in "new_publisher_name", with: new_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"
+
+        expect(Book.find_by(name: book_1_name).year_published).to eq(year_published_1)
+      end
+
+      it "correctly displays the year published on the book's show page" do
+        fill_in "book_name", with: book_1_name
+        fill_in "new_book_author", with: author_3_name
+        check genre_2.id
+        fill_in "new_publisher_name", with: new_publisher_name
+        fill_in "book_year_published", with: year_published_1
+        click_on "Create New Book"
+
+        expect(page).to have_content(year_published_1)
+
       end
 
     end
