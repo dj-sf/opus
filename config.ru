@@ -9,4 +9,5 @@ use AuthorsController
 use BooksController
 use GenresController
 use PublishersController
+use SessionsController
 run ApplicationController
