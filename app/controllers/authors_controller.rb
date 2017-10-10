@@ -1,14 +1,22 @@
 class AuthorsController < ApplicationController
 
   get '/authors' do
-    @authors = Author.all
-    erb :'authors/index'
+    if Helpers.is_logged_in?(session)
+      @authors = Author.all
+      erb :'authors/index'
+    else
+      erb :'sessions/authentication_error'
+    end
   end
 
   get '/authors/:slug' do
-    @authors = Author.all
-    @author = Author.find_by_slug(params[:slug])
-    erb :'authors/show'
+    if Helpers.is_logged_in?(session)
+      @authors = Author.all
+      @author = Author.find_by_slug(params[:slug])
+      erb :'authors/show'
+    else
+      erb :'sessions/authentication_error'
+    end
   end
 
 end
