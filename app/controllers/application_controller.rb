@@ -8,6 +8,6 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    erb :home
+    erb :home, :layout => false
   end
 end
