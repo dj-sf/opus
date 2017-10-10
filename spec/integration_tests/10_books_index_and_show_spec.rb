@@ -92,16 +92,22 @@ describe "Books Integration" do
       expect(Author.all).not_to include(author_1)
     end
 
-    xit "deletes the book's genre if that genre no longer has any books" do
-
+    it "deletes the book's genres if those genres no longer have any books" do
+      #I KNOW THIS FUNCTION IS WORKING but the test isnt quite right
+      @book.genres << genre_1
+      @book.save
+      genre_1.save
+      click_on 'Delete Book'
+      expect(Genre.all).not_to include(genre_1)
     end
 
-    xit "deletes the book's publisher if that publisher no longer has books" do
-
+    it "deletes the book's publisher if that publisher no longer has books" do
+      click_on 'Delete Book'
+      expect(Publisher.all).not_to include(publisher_2)
     end
 
     xit "clicking on the button redirects brings up a 'are you sure you want to delete this book' button" do
-
+      #functionality not yet implemented
     end
   end
 end

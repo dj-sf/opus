@@ -133,9 +133,12 @@ class BooksController < ApplicationController
   delete '/books/:slug/delete' do
     @book = Book.find_by_slug(params[:slug])
     @book.delete
-    binding.pry
     @book.author.delete if @book.author.books.count == 0
+    @book.publisher.delete if @book.publisher.books.count == 0
     binding.pry
+    @book.genres.each do |g|
+      g.delete if g.books.count == 0
+    end
     redirect to "/books"
   end
 
