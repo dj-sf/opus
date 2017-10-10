@@ -184,10 +184,10 @@ describe "Book edit form" do
 
   context "editing book read status" do
     it "changes book-read status" do
-      binding.pry
+
       find("option[value='1']").select_option
       click_on 'Edit Book'
-      binding.pry
+
       expect(Book.find(@id).has_been_read).to eq(1)
     end
   end

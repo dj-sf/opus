@@ -48,26 +48,7 @@ describe 'BooksController' do
     expect(last_response).to be_ok
   end
 
-  it "accepts an edit request and returns to book show page" do
-    sample = Book.create(name: "Sample Book")
-    get '/books/sample-book/edit'
-
-    patch '/books/sample-book'
-    follow_redirect!
-    expect(last_response).to be_ok
-    expect(last_request.path).to eq('/books/sample-book')
-
-  end
-
   #Destroy
 
-  it "responds with ok to a delete request and redirects to index" do
-    sample = Book.create(name: "Sample Book")
-    delete '/books/sample-book'
-    follow_redirect!
-    expect(last_response).to be_ok
-    expect(last_request.path).to eq('/books')
-
-  end
 
 end
