@@ -331,7 +331,6 @@ describe "New Book Form" do
         expect(page).to have_content(year_published_1)
 
       end
-
     end
   end
 end

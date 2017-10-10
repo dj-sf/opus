@@ -21,6 +21,7 @@ describe "Book edit form" do
   let!(:genre_1) {Genre.create(name: "Fantasy")}
   let!(:genre_2) {Genre.create(name: "History")}
   let!(:genre_3) {Genre.create(name: "Thriller")}
+  let(:new_genre_name) {"Post Genre"}
 
   before do
     original_book.author = original_author
@@ -128,6 +129,44 @@ describe "Book edit form" do
       fill_in "book_year_published", :with => second_edition_publishing
       click_on 'Edit Book'
       expect(Book.find(@id).year_published).to eq(second_edition_publishing)
+    end
+  end
+
+  context "editing genres" do
+    it "pre-fills checkboxes for the genres it is assigned" do
+      expect(page).to have_checked_field(genre_1.id)
+      expect(page).to have_checked_field(genre_2.id)
+      expect(page).to have_unchecked_field(genre_3.id)
+    end
+
+    it "allows genres to be added" do
+      check genre_3.id
+      click_on 'Edit Book'
+      expect(Book.find(@id).genres.collect { |g| g.id }).to eq([genre_1.id, genre_2.id, genre_3.id])
+    end
+
+    it "allows genres to be removed" do
+      uncheck genre_2.id
+      click_on 'Edit Book'
+      expect(Book.find(@id).genres.collect { |g| g.id }).to eq([genre_1.id])
+    end
+
+    it "gives the book a new genre when a new value is passed it" do
+      fill_in "new_genre", with: new_genre_name
+      click_on "Edit Book"
+      expect(Book.find(@id).genres.collect{|g| g.name}).to include(genre_1.name)
+      expect(Book.find(@id).genres.collect {|g| g.name}).to include(new_genre_name)
+    end
+
+    it "creates a new genre in the database when a new value is passed into it" do
+      expect{
+        fill_in "new_genre", with: new_genre_name
+        click_on "Edit Book"
+      }.to change(Genre, :count).by(1)
+    end
+
+    xit "does not create a new genre when a new genre box is checked" do
+
     end
   end
 end

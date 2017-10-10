@@ -22,7 +22,7 @@ class BooksController < ApplicationController
 
     else
       @book = Book.find_by(:name => params[:book][:name])
-      
+
       #set alternate flash message here LATER
       redirect to "/books/#{@book.slug}"
     end
@@ -59,7 +59,7 @@ class BooksController < ApplicationController
     end
 
     #editing book's publication year
-    # binding.pry
+    #
     @book.year_published = params[:book][:year_published]
     # saving book
     @book.save
@@ -104,20 +104,24 @@ class BooksController < ApplicationController
     else
       @book.publisher = Publisher.find_by(:name => params[:book][:publisher])
     end
-    #
-    # #associating a book with existing genres
-    # params[:book][:genre_ids].each do |g|
-    #   @book.genres << Genre.find(g)
-    # end
-    #
-    # #associating book with a new genre
-    # if !params[:genre][:name].empty?
-    #   if !Genre.all.detect {|g| g.name == params[:genre][:name]}
-    #     @book.genres << Genre.create(:name => params[:genre][:name])
-    #   else
-    #     @book.genres << Genre.find_by(name: params[:genre][:name])
-    #   end
-    # end
+
+    #associating a book with existing genres
+    #edited from original new.erb so that duplicates are not added
+    @book.genres = params[:book][:genre_ids].collect { |g| Genre.find(g)}
+
+    #associating book with a new genre
+
+    if !params[:genre][:name].empty?
+
+      if !Genre.all.detect {|g| g.name == params[:genre][:name]}
+        @book.genres << Genre.create(:name => params[:genre][:name])
+      elsif !@book.genres.detect{|g| g.name == params[:genre][:name]}
+        #the above was edited so that duplicates would not be added to the genre through the new genre field
+
+        @book.genres << Genre.find_by(name: params[:genre][:name])
+      end
+      #if the genre is already detected in the book's genres array, this whole statement just does nothing.
+    end
 
     # editing book's publication year
     @book.year_published = params[:book][:year_published]
