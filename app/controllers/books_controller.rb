@@ -19,6 +19,7 @@ class BooksController < ApplicationController
     @books = Book.all
     if !Book.all.detect{ |b| b.name == params[:book][:name] }
       @book = Book.create(name: params[:book][:name], has_been_read: params[:book][:has_been_read])
+      
     else
       @book = Book.find_by(:name => params[:book][:name])
       #set alternate flash message here LATER

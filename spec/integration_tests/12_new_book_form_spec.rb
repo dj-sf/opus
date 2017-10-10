@@ -309,6 +309,10 @@ describe "New Book Form" do
         expect(page).to have_content("You have read this book")
       end
 
+      xit "correctly adds the year published" do
+        
+      end
+
     end
   end
 end

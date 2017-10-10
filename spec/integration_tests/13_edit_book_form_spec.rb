@@ -8,11 +8,13 @@ describe "Book edit form" do
   let(:preexisting_author_name) {"Preexisting Author"}
   let(:changed_author_name) {"Changed Authorman"}
   let(:original_publisher_name) {"Original Publishing"}
+  let(:preexisting_publisher_name) {"Preexisting Publishing"}
   let(:changed_publisher_name) {"Unoriginal Publishing"}
   let(:first_edition_publishing) {1993}
   let(:second_edition_publishing) {1995}
 
   let!(:original_publisher) {Publisher.create(name: original_publisher_name)}
+  let!(:preexisting_publisher) {Publisher.create(name: preexisting_publisher_name)}
   let!(:original_author) {Author.create(name: original_author_name)}
   let!(:preexisting_author){Author.create(name: preexisting_author_name)}
   let!(:original_book) {Book.create(name: original_book_name)}
@@ -103,13 +105,31 @@ describe "Book edit form" do
     end
 
 
-    xit "saves changes to the publisher's name when a pre-existing publisher name is selected" do
+    it "saves changes to the publisher's name when a pre-existing publisher name is selected" do
+      select preexisting_publisher_name, :from =>'book_publisher'
+      click_on 'Edit Book'
+      expect(Book.find(@id).publisher.name).to eq(preexisting_publisher_name)
     end
 
-    xit "does not create a new publisher when choosing a preexisting publisher name" do
-
+    it "does not create a new publisher when choosing a preexisting publisher name" do
+      expect{
+        select preexisting_publisher_name, :from =>'book_publisher'
+        click_on 'Edit Book'
+      }.not_to change(Publisher, :count)
     end
-
   end
+
+  context "editing year of publication" do
+    it "preselects the unchanged book's year" do
+      expect(find_field('book_year_published').value).to eq first_edition_publishing.to_s
+    end
+
+    it "changes the book's publication year when a new value is passed in" do
+      fill_in "book_year_published", :with => second_edition_publishing
+      click_on 'Edit Book'
+      expect(Book.find(@id).year_published).to eq(second_edition_publishing)
+    end
+  end
+
 
 end
