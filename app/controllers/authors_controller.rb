@@ -5,7 +5,7 @@ class AuthorsController < ApplicationController
       @authors = Author.all
       erb :'authors/index'
     else
-      erb :'sessions/authentication_error'
+      erb :'sessions/authentication_error', :layout => false
     end
   end
 
@@ -15,7 +15,7 @@ class AuthorsController < ApplicationController
       @author = Author.find_by_slug(params[:slug])
       erb :'authors/show'
     else
-      erb :'sessions/authentication_error'
+      erb :'sessions/authentication_error', :layout => false
     end
   end
 

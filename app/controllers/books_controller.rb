@@ -3,16 +3,24 @@ require_relative '../../config/environment'
 class BooksController < ApplicationController
 
   get '/books' do
-    @books = Book.all
-    erb :'books/index'
+    if Helpers.is_logged_in?(session)
+      @books = Book.all
+      erb :'books/index'
+    else
+      erb :'sessions/authentication_error', :layout => false
+    end
   end
 
   get '/books/new' do
-    @books = Book.all
-    @authors = Author.all
-    @publishers = Publisher.all
-    @genres = Genre.all
-    erb :'books/new'
+    if Helpers.is_logged_in?(session)
+      @books = Book.all
+      @authors = Author.all
+      @publishers = Publisher.all
+      @genres = Genre.all
+      erb :'books/new'
+    else
+      erb :'sessions/authentication_error', :layout => false
+    end
   end
 
   post '/books' do
@@ -68,18 +76,26 @@ class BooksController < ApplicationController
   end
 
   get '/books/:slug' do
-    @books = Book.all
-    @book = Book.find_by_slug(params[:slug])
-    erb :'books/show'
+    if Helpers.is_logged_in?(session)
+      @books = Book.all
+      @book = Book.find_by_slug(params[:slug])
+      erb :'books/show'
+    else
+      erb :'sessions/authentication_error', :layout => false
+    end
   end
 
   get '/books/:slug/edit' do
-    @books = Book.all
-    @authors = Author.all
-    @publishers = Publisher.all
-    @genres = Genre.all
-    @book = Book.find_by_slug(params[:slug])
-    erb :'books/edit'
+    if Helpers.is_logged_in?(session)
+      @books = Book.all
+      @authors = Author.all
+      @publishers = Publisher.all
+      @genres = Genre.all
+      @book = Book.find_by_slug(params[:slug])
+      erb :'books/edit'
+    else
+      erb :'sessions/authentication_error', :layout => false
+    end
   end
 
   patch '/books/:slug' do
