@@ -11,6 +11,9 @@ Genres: <br>
 <% end %>
 <br>
 
+<!-- indicates owner -->
+Owner: <%= @book.user.name %> <br>
+
 <!-- indicates whether book has been read -->
 <% if @book.has_been_read == 1 %>
   <em>You have read this book.</em><br>
