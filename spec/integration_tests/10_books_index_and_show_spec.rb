@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Books Integration" do
-
+  let!(:user_1) {User.create(name: "Jim", email: "jmstricker93@gmail.com", password: 'password')}
   let!(:author_1) { Author.create(name: "Mark Twain") }
   let!(:author_2) { Author.create(name:"JK Rowling") }
   let!(:publisher_1) {Publisher.create(name: "Random House")}
@@ -13,15 +13,20 @@ describe "Books Integration" do
   let(:book_3_name) { "Harry Potter and the Chamber of Secrets"}
   let!(:book_1) { Book.create(name: book_1_name, author_id: 1, publisher_id: 2) }
   let!(:book_2) { Book.create(name: book_2_name, author_id: 2, publisher_id: 1) }
-  let!(:book_3) { Book.create(name: book_3_name, author_id: 2, publisher_id: 1) }
+  let!(:book_3) { Book.create(name: book_3_name, author_id: 2, publisher_id: 1)}
 
   context "books/index.erb" do
     before do
-      visit "/books"
+      visit "/sessions/login"
+      fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+      fill_in 'login_password', :with => 'password'
+      click_on 'Log In'
+      visit '/books'
       @books = Book.all
     end
 
     it "shows a list of all all books" do
+      binding.pry
       expect(page).to have_content(book_1_name)
       expect(page).to have_content(book_2_name)
       expect(page).to have_content(book_3_name)
@@ -44,6 +49,11 @@ describe "Books Integration" do
     context "viewing a book's info" do
 
       before do
+        visit "/sessions/login"
+        fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+        fill_in 'login_password', :with => 'password'
+        click_on 'Log In'
+
         visit "/books/#{book_2.slug}"
         @book = Book.find_by_slug(book_2.slug)
       end
