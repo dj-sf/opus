@@ -26,7 +26,16 @@ class BooksController < ApplicationController
   end
 
   post '/books' do
-    
+
+    #INPUT VALIDATION
+    if !params[:book][:name] || params[:book][:name].empty?
+      flash[:message] = "*INPUT ERROR: Please specify a book name*"
+      redirect to '/books/new'
+    end
+
+
+    #ACTUAL OBJECT CREATION
+
     @books = Book.all
     if !Book.all.detect{ |b| b.name == params[:book][:name] }
       @book = Book.create(name: params[:book][:name], has_been_read: params[:book][:has_been_read])
