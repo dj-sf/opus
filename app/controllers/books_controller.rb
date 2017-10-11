@@ -92,69 +92,88 @@ class BooksController < ApplicationController
       @publishers = Publisher.all
       @genres = Genre.all
       @book = Book.find_by_slug(params[:slug])
-      erb :'books/edit'
+      if Helpers.current_user(session) == @book.user
+        erb :'books/edit'
+      else
+        erb :'sessions/wrong_user_error'
+      end
     else
       erb :'sessions/authentication_error', :layout => false
     end
   end
 
   patch '/books/:slug' do
-    @book = Book.find_by_slug(params[:slug])
-    @books = Book.all
+    if Helpers.is_logged_in?(session)
+      @book = Book.find_by_slug(params[:slug])
+      if Helpers.current_user(session) == @book.user
+        @books = Book.all
+        @book.name = params[:book][:name]
 
-    @book.name = params[:book][:name]
 
+        #associating book with author
 
-    #associating book with author
+        if !params[:author][:name].empty?
+          @book.author = Author.find_or_create_by(:name => params[:author][:name])
+        else
+          @book.author = Author.find_by(:name => params[:book][:author])
+        end
 
-    if !params[:author][:name].empty?
-      @book.author = Author.find_or_create_by(:name => params[:author][:name])
-    else
-      @book.author = Author.find_by(:name => params[:book][:author])
-    end
+        #associating book with existing publisher
+        if !params[:publisher][:name].empty?
+          @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
+        else
+          @book.publisher = Publisher.find_by(:name => params[:book][:publisher])
+        end
 
-    #associating book with existing publisher
-    if !params[:publisher][:name].empty?
-      @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])
-    else
-      @book.publisher = Publisher.find_by(:name => params[:book][:publisher])
-    end
+        #associating a book with existing genres
+        #edited from original new.erb so that duplicates are not added
+        @book.genres = params[:book][:genre_ids].collect { |g| Genre.find(g)}
 
-    #associating a book with existing genres
-    #edited from original new.erb so that duplicates are not added
-    @book.genres = params[:book][:genre_ids].collect { |g| Genre.find(g)}
+        #associating book with a new genre
 
-    #associating book with a new genre
+        if !params[:genre][:name].empty?
 
-    if !params[:genre][:name].empty?
+          if !Genre.all.detect {|g| g.name == params[:genre][:name]}
+            @book.genres << Genre.create(:name => params[:genre][:name])
+          elsif !@book.genres.detect{|g| g.name == params[:genre][:name]}
+            #the above was edited so that duplicates would not be added to the genre through the new genre field
 
-      if !Genre.all.detect {|g| g.name == params[:genre][:name]}
-        @book.genres << Genre.create(:name => params[:genre][:name])
-      elsif !@book.genres.detect{|g| g.name == params[:genre][:name]}
-        #the above was edited so that duplicates would not be added to the genre through the new genre field
+            @book.genres << Genre.find_by(name: params[:genre][:name])
+          end
+          #if the genre is already detected in the book's genres array, this whole statement just does nothing.
+        end
 
-        @book.genres << Genre.find_by(name: params[:genre][:name])
+        # editing book's publication year
+        @book.year_published = params[:book][:year_published]
+        @book.has_been_read = params[:book][:has_been_read]
+        #saving book
+        @book.save
+        redirect to "/books/#{params[:slug]}"
+      else
+        erb :'sessions/wrong_user_error'
       end
-      #if the genre is already detected in the book's genres array, this whole statement just does nothing.
+    else
+      erb :'sessions/authentication_error'
     end
-
-    # editing book's publication year
-    @book.year_published = params[:book][:year_published]
-    @book.has_been_read = params[:book][:has_been_read]
-    #saving book
-    @book.save
-    redirect to "/books/#{params[:slug]}"
   end
 
   delete '/books/:slug/delete' do
-    @book = Book.find_by_slug(params[:slug])
-    @book.delete
-    @book.author.delete if @book.author.books.count == 0
-    @book.publisher.delete if @book.publisher.books.count == 0
-    @book.genres.each do |g|
-      g.delete if g.books.count == 0
+    if Helpers.is_logged_in?(session)
+      @book = Book.find_by_slug(params[:slug])
+      if Helpers.current_user(session) == @book.user
+        @book.delete
+        @book.author.delete if @book.author.books.count == 0
+        @book.publisher.delete if @book.publisher.books.count == 0
+        @book.genres.each do |g|
+          g.delete if g.books.count == 0
+        end
+        redirect to "/books"
+      else
+        erb :'sessions/wrong_user_error'
+      end
+    else
+      erb :'sessions/authentication_error'
     end
-    redirect to "/books"
   end
 
   #later add functionality that says if the author has no books, the author instance is deleted
