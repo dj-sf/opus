@@ -8,6 +8,10 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/' do
-    erb :home, :layout => false
+    if !Helpers.is_logged_in?(session)
+      erb :home, :layout => false
+    else
+      redirect to '/users/home'
+    end
   end
 end
