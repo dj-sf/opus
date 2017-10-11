@@ -26,13 +26,19 @@ class BooksController < ApplicationController
   end
 
   post '/books' do
-
+    flash[:message] = []
     #INPUT VALIDATION
+    has_error = false
     if !params[:book][:name] || params[:book][:name].empty?
-      flash[:message] = "*INPUT ERROR: Please specify a book name*"
-      redirect to '/books/new'
+      flash[:message] << "*Please specify a book name*"
+      has_error = true
+    end
+    if (!params[:book][:author] || params[:book][:author].empty?) && (!params[:author][:name] || params[:author][:name].empty?)
+      flash[:message] << "*Please specify an author or create a new author*"
+      has_error = true
     end
 
+    redirect to '/books/new' if has_error == true
 
     #ACTUAL OBJECT CREATION
 
@@ -50,14 +56,11 @@ class BooksController < ApplicationController
     #associating book with author
 
     if !params[:author][:name].empty?
-
       @book.author = Author.find_or_create_by(:name => params[:author][:name])
     else
       @book.author = Author.find_by(:name => params[:book][:author])
     end
     @book.save
-
-
     #associating book with existing publisher
     if !params[:publisher][:name].empty?
       @book.publisher = Publisher.find_or_create_by(:name => params[:publisher][:name])

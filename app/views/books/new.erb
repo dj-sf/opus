@@ -1,6 +1,8 @@
 <% if flash.has?(:message) %>
   <br>
-  <p style ='color: red'><em><%= flash[:message] %></em></p>
+  <% flash[:message].each do |message| %>
+    <p style ='color: red'><em><%= message %></em></p>
+  <% end %>
 <% end %>
 
 <h2 class='page_title'>Create New Book</h2>
