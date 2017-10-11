@@ -18,7 +18,7 @@ describe "Book edit form" do
   let!(:preexisting_publisher) {Publisher.create(name: preexisting_publisher_name)}
   let!(:original_author) {Author.create(name: original_author_name)}
   let!(:preexisting_author){Author.create(name: preexisting_author_name)}
-  let!(:original_book) {Book.create(name: original_book_name, has_been_read: 0)}
+  let!(:original_book) {Book.create(name: original_book_name, has_been_read: 0, user_id: 1)}
   let!(:genre_1) {Genre.create(name: "Fantasy")}
   let!(:genre_2) {Genre.create(name: "History")}
   let!(:genre_3) {Genre.create(name: "Thriller")}
@@ -29,7 +29,7 @@ describe "Book edit form" do
     fill_in 'login_email', :with => 'jmstricker93@gmail.com'
     fill_in 'login_password', :with => 'password'
     click_on 'Log In'
-    
+
     original_book.author = original_author
     original_book.publisher = original_publisher
     original_book.has_been_read = 0
