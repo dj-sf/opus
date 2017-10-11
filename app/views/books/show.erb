@@ -16,9 +16,9 @@ Owner: <%= @book.user.name %> <br>
 
 <!-- indicates whether book has been read -->
 <% if @book.has_been_read == 1 %>
-  <em>You have read this book.</em><br>
+  <em>This book has been read.</em><br>
 <% else %>
-  <em>You have <u>not</u> read this book.</em><br>
+  <em>This book has <u>not</u> been read.</em><br>
 <% end %>
 <br>
 <a href="/books/<%= @book.slug %>/edit"><input type="submit" value="Edit Book"></a>
