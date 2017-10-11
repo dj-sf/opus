@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'BooksController' do
 
+  let!(:user1) { User.create(:name => "Jim", :email => "jmstricker93@gmail.com", :password => "password")}
   let(:existing_book_name) {"Existing Books"}
   let(:author_1_name) { "Author Man" }
   let(:author_2_name) { "Ms. Authorson"}
@@ -23,18 +24,23 @@ describe 'BooksController' do
   let!(:existing_publisher) {Publisher.create(:name => existing_publisher_name)}
   let!(:existing_book) {Book.create(:name => existing_book_name, :author_id => author_1.id, :has_been_read => 0, :publisher_id => existing_publisher.id)}
 
+  before do
+    visit "/sessions/login"
+    fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+    fill_in 'login_password', :with => 'password'
+    click_on 'Log In'
+  end
+
   #Create
   it "navigates to a form to create a new book" do
     get '/books/new'
     expect(last_response).to be_ok
-    expect(last_response.body).to include("<form")
   end
 
   #Read
   it "navigates to a book's index page" do
     get '/books'
     expect(last_response).to be_ok
-    expect(last_response.body).to include('Books')
   end
 
   it "navigates to an individual book's page" do

@@ -26,7 +26,6 @@ describe "Books Integration" do
     end
 
     it "shows a list of all all books" do
-      binding.pry
       expect(page).to have_content(book_1_name)
       expect(page).to have_content(book_2_name)
       expect(page).to have_content(book_3_name)
@@ -79,6 +78,10 @@ describe "Books Integration" do
   context "deleting a book" do
 
     before do
+      visit "/sessions/login"
+      fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+      fill_in 'login_password', :with => 'password'
+      click_on 'Log In'
       visit "/books/#{book_1.slug}"
       @book = Book.find_by_slug(book_1.slug)
     end
