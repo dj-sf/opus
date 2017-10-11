@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20171011011628) do
     t.datetime "updated_at", null: false
     t.integer "year_published"
     t.integer "has_been_read"
-    t.integer "owner_id"
+    t.integer "user_id"
   end
 
   create_table "genres", force: :cascade do |t|
