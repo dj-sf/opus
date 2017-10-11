@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "New Book Form" do
-
+  let!(:user_1) {User.create(name: "Jim", email: "jmstricker93@gmail.com", password: 'password')}
   let(:existing_book_name) {"Existing Books"}
   let(:author_1_name) { "Author Man" }
   let(:author_2_name) { "Ms. Authorson"}
@@ -27,6 +27,10 @@ describe "New Book Form" do
 
   describe "/books/new" do
     before do
+      visit "/sessions/login"
+      fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+      fill_in 'login_password', :with => 'password'
+      click_on 'Log In'
       visit "/books/new"
     end
 

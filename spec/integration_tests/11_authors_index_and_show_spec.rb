@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "Authors Integration" do
-  
+  let!(:user_1) {User.create(name: "Jim", email: "jmstricker93@gmail.com", password: 'password')}
   let!(:author_1) { Author.create(name: "Mark Twain") }
   let!(:author_2) { Author.create(name:"JK Rowling") }
   let(:genre_1_name) { "Historical Fiction" }
@@ -15,6 +15,10 @@ describe "Authors Integration" do
 
   context "authors/index.erb" do
     before do
+      visit "/sessions/login"
+      fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+      fill_in 'login_password', :with => 'password'
+      click_on 'Log In'
       visit "/authors"
       @authors = Author.all
     end
@@ -33,6 +37,10 @@ describe "Authors Integration" do
   context "authors/show.erb" do
 
     before do
+      visit "/sessions/login"
+      fill_in 'login_email', :with => 'jmstricker93@gmail.com'
+      fill_in 'login_password', :with => 'password'
+      click_on 'Log In'
       visit "/authors/#{author_2.slug}"
       @authors = Author.all
     end
