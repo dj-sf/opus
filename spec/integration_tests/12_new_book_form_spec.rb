@@ -39,26 +39,10 @@ describe "New Book Form" do
         expect {
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: author_3_name
+          fill_in "new_publisher_name", with: "Tha Publicationz"
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
-    end
-
-    context "given an existing book" do
-      it "does not create a new book in the database on submit" do
-        expect {
-          fill_in "book_name", with: existing_book_name
-          fill_in "new_book_author", with: author_3_name
-          click_on "Create New Book"
-        }.not_to change(Book, :count)
-      end
-      #DO THE BELOW LATER
-      # it "reloads the current page" do
-      # end
-      #
-      # it "indicates with a flash message that the book already exists" do
-      #
-      # end
     end
 
 
@@ -68,6 +52,7 @@ describe "New Book Form" do
         expect {
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: author_3_name
+          fill_in "new_publisher_name", with: "Tha Publicationz"
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -99,6 +84,7 @@ describe "New Book Form" do
         expect {
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: existing_author_name
+          fill_in "new_publisher_name", with: "Tha Publicationz"
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -130,6 +116,7 @@ describe "New Book Form" do
         expect {
           fill_in "book_name", with: book_1_name
           select existing_author_name, :from => "book_author"
+          fill_in "new_publisher_name", with: "Tha Publicationz"
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -205,6 +192,7 @@ describe "New Book Form" do
         it "creates a new book in the database on submit" do
           expect {
             fill_in "book_name", with: book_1_name
+            fill_in "new_book_author", with: author_3_name
             select existing_publisher_name, :from => "book_publisher"
             click_on "Create New Book"
           }.to change(Book, :count).by(1)

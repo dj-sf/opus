@@ -6,12 +6,14 @@ describe "Authors Integration" do
   let!(:author_2) { Author.create(name:"JK Rowling") }
   let(:genre_1_name) { "Historical Fiction" }
   let(:genre_2_name) { "Fantasy" }
+  let(:publisher_1_name) {"Publications Inc."}
+  let!(:publisher_1) {Publisher.create(name: publisher_1_name)}
   let(:book_1_name) { "The Adventures of Huckleberry Finn"}
   let(:book_2_name) { "Harry Potter and the Sorcerer's Stone"}
   let(:book_3_name) { "Harry Potter and the Chamber of Secrets"}
-  let!(:book_1) { Book.create(name: book_1_name, author: author_1, user_id: 1) }
-  let!(:book_2) { Book.create(name: book_2_name, author: author_2, user_id: 1) }
-  let!(:book_3) { Book.create(name: book_3_name, author: author_2, user_id: 1) }
+  let!(:book_1) { Book.create(name: book_1_name, author: author_1, user_id: 1, publisher_id: 1) }
+  let!(:book_2) { Book.create(name: book_2_name, author: author_2, user_id: 1, publisher_id: 1) }
+  let!(:book_3) { Book.create(name: book_3_name, author: author_2, user_id: 1, publisher_id: 1) }
 
   context "authors/index.erb" do
     before do
