@@ -19,6 +19,11 @@ class BooksController < ApplicationController
       @authors = Author.all
       @publishers = Publisher.all
       @genres = Genre.all
+
+      if flash.has?(:message)
+        binding.pry
+      end
+
       erb :'books/new'
     else
       erb :'sessions/authentication_error', :layout => false
@@ -26,15 +31,43 @@ class BooksController < ApplicationController
   end
 
   post '/books' do
+
+    #INPUT VALIDATION!!!
     flash[:message] = []
-    #INPUT VALIDATION
     has_error = false
     if !params[:book][:name] || params[:book][:name].empty?
       flash[:message] << "*Please specify a book name*"
       has_error = true
     end
+
+
     if (!params[:book][:author] || params[:book][:author].empty?) && (!params[:author][:name] || params[:author][:name].empty?)
       flash[:message] << "*Please specify an author or create a new author*"
+      has_error = true
+    end
+
+    if !params[:book][:author].empty? && !params[:author][:name].empty?
+      flash[:message] <<  "*Only one author per book.  Please either the new author field or the author dropdown.*"
+      has_error = true
+    end
+
+    if (!params[:book][:publisher] || params[:book][:publisher].empty?) && (!params[:publisher][:name] || params[:publisher][:name].empty?)
+      flash[:message] << "*Please specify an author or create a new publisher*"
+      has_error = true
+    end
+
+    if !params[:book][:publisher].empty? && !params[:publisher][:name].empty?
+      flash[:message] <<  "*Only one publisher per book.  Please either the new publisher field or the publisher dropdown*"
+      has_error = true
+    end
+
+    if !params[:book][:year_published] || params[:book][:year_published].empty?
+      flash[:message] <<  "*Please enter a publication year*"
+      has_error = true
+    end
+
+    if !params[:genre_ids] || params[:genre_ids].empty?
+      flash[:message] <<  "*Please select or create at least one genre*"
       has_error = true
     end
 
@@ -48,7 +81,6 @@ class BooksController < ApplicationController
 
     else
       @book = Book.find_by(:name => params[:book][:name])
-
       #set alternate flash message here LATER
       redirect to "/books/#{@book.slug}"
     end
