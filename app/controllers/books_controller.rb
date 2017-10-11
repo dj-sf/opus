@@ -1,6 +1,8 @@
 require_relative '../../config/environment'
-
+require 'rack-flash'
 class BooksController < ApplicationController
+
+  use Rack::Flash
 
   get '/books' do
     if Helpers.is_logged_in?(session)
@@ -24,6 +26,7 @@ class BooksController < ApplicationController
   end
 
   post '/books' do
+    
     @books = Book.all
     if !Book.all.detect{ |b| b.name == params[:book][:name] }
       @book = Book.create(name: params[:book][:name], has_been_read: params[:book][:has_been_read])
@@ -38,10 +41,12 @@ class BooksController < ApplicationController
     #associating book with author
 
     if !params[:author][:name].empty?
+
       @book.author = Author.find_or_create_by(:name => params[:author][:name])
     else
       @book.author = Author.find_by(:name => params[:book][:author])
     end
+    @book.save
 
 
     #associating book with existing publisher
@@ -52,8 +57,10 @@ class BooksController < ApplicationController
     end
 
     #associating a book with existing genres
-    params[:book][:genre_ids].each do |g|
-      @book.genres << Genre.find(g)
+    if params[:book][:genre_ids]
+      params[:book][:genre_ids].each do |g|
+        @book.genres << Genre.find(g)
+      end
     end
 
     #associating book with a new genre
@@ -65,6 +72,8 @@ class BooksController < ApplicationController
         @book.genres << Genre.find_by(name: params[:genre][:name])
       end
     end
+
+    @book.user = Helpers.current_user(session)
 
     #editing book's publication year
     #

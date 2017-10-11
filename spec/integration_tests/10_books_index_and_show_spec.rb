@@ -12,9 +12,9 @@ describe "Books Integration" do
   let(:book_1_name) { "The Adventures of Huckleberry Finn"}
   let(:book_2_name) { "Harry Potter and the Sorcerer's Stone"}
   let(:book_3_name) { "Harry Potter and the Chamber of Secrets"}
-  let!(:book_1) { Book.create(name: book_1_name, author_id: 1, publisher_id: 2) }
-  let!(:book_2) { Book.create(name: book_2_name, author_id: 2, publisher_id: 1) }
-  let!(:book_3) { Book.create(name: book_3_name, author_id: 2, publisher_id: 1)}
+  let!(:book_1) { Book.create(name: book_1_name, author_id: 1, publisher_id: 2, user_id: 1) }
+  let!(:book_2) { Book.create(name: book_2_name, author_id: 2, publisher_id: 1, user_id: 1) }
+  let!(:book_3) { Book.create(name: book_3_name, author_id: 2, publisher_id: 1, user_id: 1) }
 
   context "books/index.erb" do
     before do

@@ -21,7 +21,7 @@ describe "New Book Form" do
   let!(:genre_2) { Genre.create(name: genre_2_name, category: genre_category) }
   let!(:author_1) {Author.create(:name => author_1_name)}
   let!(:author_2) {Author.create(:name => author_2_name)}
-  let!(:existing_book) {Book.create(:name => existing_book_name)}
+  let!(:existing_book) {Book.create(:name => existing_book_name, user_id: 1)}
   let!(:existing_publisher) {Publisher.create(:name => existing_publisher_name)}
   let!(:existing_author) { Author.create(:name => existing_author_name) }
 
@@ -310,7 +310,7 @@ describe "New Book Form" do
         fill_in "book_year_published", with: year_published_1
         click_on "Create New Book"
 
-        expect(page).to have_content("You have read this book")
+        expect(page).to have_content("This book has been read.")
       end
 
       it "correctly adds the year published" do
