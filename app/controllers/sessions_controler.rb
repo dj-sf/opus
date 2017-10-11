@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
 
   get '/registrations/new-user' do
-    erb :'/registrations/new-user'
+    erb :'/registrations/new-user', :layout => false
   end
 
   post '/registrations' do
