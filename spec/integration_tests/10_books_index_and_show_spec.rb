@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe "Books Integration" do
+
   let!(:user_1) {User.create(name: "Jim", email: "jmstricker93@gmail.com", password: 'password')}
   let!(:author_1) { Author.create(name: "Mark Twain") }
   let!(:author_2) { Author.create(name:"JK Rowling") }
