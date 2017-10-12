@@ -197,6 +197,9 @@ class BooksController < ApplicationController
         @book.has_been_read = params[:book][:has_been_read]
         #saving book
         @book.save
+
+        flash[:message] = "Book Successfully Deleted"
+
         redirect to "/books/#{params[:slug]}"
       else
         erb :'sessions/wrong_user_error'
