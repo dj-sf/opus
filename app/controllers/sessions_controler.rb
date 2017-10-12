@@ -6,9 +6,16 @@ class SessionsController < ApplicationController
 
   post '/registrations' do
     @user = User.new(name: params[:name], email: params[:email], password: params[:password])
-    @user.save
-    session[:user_id] = @user.id
-    redirect to '/users/home'
+    if @user.save
+      session[:user_id] = @user.id
+      redirect to '/users/home'
+    else
+      redirect to '/registrations/failure'
+    end
+  end
+
+  get '/registrations/failure' do
+    erb :'sessions/signup_error', :layout => false
   end
 
   get '/users/home' do
