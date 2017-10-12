@@ -37,15 +37,15 @@ class SessionsController < ApplicationController
   end
 
   post '/sessions' do
-    @user = User.find_by(email: params[:email], password: params[:password])
-
-    if @user
+    @user = User.find_by(email: params[:email])
+    if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
       redirect to '/users/home'
     else
       erb :'sessions/login_error', :layout => false
     end
   end
+
 
   get '/sessions/logout' do
     session.clear
