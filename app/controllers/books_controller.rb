@@ -29,40 +29,46 @@ class BooksController < ApplicationController
   post '/books' do
     if Helpers.is_logged_in?(session)
       #INPUT VALIDATION!!!
-      flash[:message] = []
       has_error = false
       if !params[:book][:name] || params[:book][:name].empty?
+        flash[:message] ||= []
         flash[:message] << "*Please specify a book name*"
         has_error = true
       end
 
 
       if (!params[:book][:author] || params[:book][:author].empty?) && (!params[:author][:name] || params[:author][:name].empty?)
+        flash[:message] ||= []
         flash[:message] << "*Please specify an author or create a new author*"
         has_error = true
       end
 
       if !params[:book][:author].empty? && !params[:author][:name].empty?
+        flash[:message] ||= []
         flash[:message] <<  "*Only one author per book.  Please either the new author field or the author dropdown.*"
         has_error = true
       end
 
       if (!params[:book][:publisher] || params[:book][:publisher].empty?) && (!params[:publisher][:name] || params[:publisher][:name].empty?)
+        flash[:message] ||= []
         flash[:message] << "*Please specify an author or create a new publisher*"
         has_error = true
       end
 
       if !params[:book][:publisher].empty? && !params[:publisher][:name].empty?
+        flash[:message] ||= []
         flash[:message] <<  "*Only one publisher per book.  Please either the new publisher field or the publisher dropdown*"
         has_error = true
       end
 
       if !params[:book][:year_published] || params[:book][:year_published].empty?
+        flash[:message] ||= []
         flash[:message] <<  "*Please enter a publication year*"
         has_error = true
       end
 
       if (!params[:book][:genre_ids] || params[:book][:genre_ids].empty?) && (!params[:genre][:name] || params[:genre][:name].empty?)
+        flash[:message] ||= []
         flash[:message] <<  "*Please select or create at least one genre*"
         has_error = true
       end
@@ -129,6 +135,7 @@ class BooksController < ApplicationController
     if Helpers.is_logged_in?(session)
       @books = Book.all
       @book = Book.find_by_slug(params[:slug])
+
       erb :'books/show'
     else
       erb :'sessions/authentication_error', :layout => false
@@ -137,11 +144,11 @@ class BooksController < ApplicationController
 
   get '/books/:slug/edit' do
     if Helpers.is_logged_in?(session)
+      @book = Book.find_by_slug(params[:slug])
       @books = Book.all
       @authors = Author.all
       @publishers = Publisher.all
       @genres = Genre.all
-      @book = Book.find_by_slug(params[:slug])
 
       if Helpers.current_user(session) == @book.user
         erb :'books/edit'
@@ -157,39 +164,45 @@ class BooksController < ApplicationController
     if Helpers.is_logged_in?(session)
 
       #INPUT VALIDATION!!!
-      flash[:message] = []
       has_error = false
       if !params[:book][:name] || params[:book][:name].empty?
+        flash[:message] ||= []
         flash[:message] << "*Please specify a book name*"
         has_error = true
       end
 
       if (!params[:book][:author] || params[:book][:author].empty?) && (!params[:author][:name] || params[:author][:name].empty?)
+        flash[:message] ||= []
         flash[:message] << "*Please specify an author or create a new author*"
         has_error = true
       end
 
       if !params[:book][:author].empty? && !params[:author][:name].empty?
+        flash[:message] ||= []
         flash[:message] <<  "*Only one author per book.  Please either the new author field or the author dropdown.*"
         has_error = true
       end
 
       if (!params[:book][:publisher] || params[:book][:publisher].empty?) && (!params[:publisher][:name] || params[:publisher][:name].empty?)
+        flash[:message] ||= []
         flash[:message] << "*Please specify an author or create a new publisher*"
         has_error = true
       end
 
       if !params[:book][:publisher].empty? && !params[:publisher][:name].empty?
+        flash[:message] ||= []
         flash[:message] <<  "*Only one publisher per book.  Please either the new publisher field or the publisher dropdown*"
         has_error = true
       end
 
       if !params[:book][:year_published] || params[:book][:year_published].empty?
+        flash[:message] ||= []
         flash[:message] <<  "*Please enter a publication year*"
         has_error = true
       end
 
       if (!params[:book][:genre_ids] || params[:book][:genre_ids].empty?) && (!params[:genre][:name] || params[:genre][:name].empty?)
+        flash[:message] ||= []
         flash[:message] <<  "*Please select or create at least one genre*"
         has_error = true
       end
@@ -199,6 +212,7 @@ class BooksController < ApplicationController
 
 
       @book = Book.find_by_slug(params[:slug])
+
       if Helpers.current_user(session) == @book.user
         @books = Book.all
         @book.name = params[:book][:name]
@@ -243,9 +257,26 @@ class BooksController < ApplicationController
         #saving book
         @book.save
 
-        flash[:message] = "Book Successfully Deleted"
+        #DELETING EMPTY ITEMS THAT WERE DISASSOCIATED DURING EDIT
+        Author.all.each do |author|
+          if author.books.count == 0
+            author.delete
+          end
+        end
+        Publisher.all.each do |publisher|
+          if publisher.books.count == 0
+            publisher.delete
+          end
+        end
+        Genre.all.each do |genre|
+          if genre.books.count == 0
+            genre.delete
+          end
+        end
 
-        redirect to "/books/#{params[:slug]}"
+        flash[:message] = "Book Successfully Edited"
+
+        redirect to "/books/#{@book.slug}"
       else
         erb :'sessions/wrong_user_error'
       end
@@ -259,6 +290,7 @@ class BooksController < ApplicationController
       @book = Book.find_by_slug(params[:slug])
       if Helpers.current_user(session) == @book.user
         @book.delete
+
         @book.author.delete if @book.author.books.count == 0
         @book.publisher.delete if @book.publisher.books.count == 0
         @book.genres.each do |g|
