@@ -20,10 +20,6 @@ class BooksController < ApplicationController
       @publishers = Publisher.all
       @genres = Genre.all
 
-      if flash.has?(:message)
-        binding.pry
-      end
-
       erb :'books/new'
     else
       erb :'sessions/authentication_error', :layout => false
@@ -66,7 +62,7 @@ class BooksController < ApplicationController
       has_error = true
     end
 
-    if !params[:genre_ids] || params[:genre_ids].empty?
+    if (!params[:book][:genre_ids] || params[:book][:genre_ids].empty?) && (!params[:genre][:name] || params[:genre][:name].empty?)
       flash[:message] <<  "*Please select or create at least one genre*"
       has_error = true
     end
@@ -220,6 +216,7 @@ class BooksController < ApplicationController
         @book.genres.each do |g|
           g.delete if g.books.count == 0
         end
+        flash[:message] = "Book Successfully Deleted"
         redirect to "/books"
       else
         erb :'sessions/wrong_user_error'

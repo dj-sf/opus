@@ -40,6 +40,8 @@ describe "New Book Form" do
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: author_3_name
           fill_in "new_publisher_name", with: "Tha Publicationz"
+          check genre_2.id
+          fill_in "book_year_published", :with => 1993
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -52,6 +54,7 @@ describe "New Book Form" do
         expect {
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: author_3_name
+          check genre_2.id
           fill_in "new_publisher_name", with: "Tha Publicationz"
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
