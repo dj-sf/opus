@@ -56,6 +56,7 @@ describe "New Book Form" do
           fill_in "new_book_author", with: author_3_name
           check genre_2.id
           fill_in "new_publisher_name", with: "Tha Publicationz"
+          fill_in "book_year_published", :with => 1993
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -76,6 +77,9 @@ describe "New Book Form" do
         expect {
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: author_3_name
+          fill_in "book_year_published", :with => 1993
+          fill_in "new_publisher_name", with: "Tha Publicationz"
+          check genre_2.id
           click_on "Create New Book"
         }.to change(Author, :count).by(1)
       end
@@ -88,6 +92,8 @@ describe "New Book Form" do
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: existing_author_name
           fill_in "new_publisher_name", with: "Tha Publicationz"
+          fill_in "book_year_published", :with => 1993
+          check genre_2.id
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -118,8 +124,10 @@ describe "New Book Form" do
       it "creates a new book in the database on submit" do
         expect {
           fill_in "book_name", with: book_1_name
-          select existing_author_name, :from => "book_author"
+          select existing_author_name, :from => 'book_author'
           fill_in "new_publisher_name", with: "Tha Publicationz"
+          fill_in "book_year_published", :with => 1993
+          check genre_2.id
           click_on "Create New Book"
         }.to change(Book, :count).by(1)
       end
@@ -163,6 +171,8 @@ describe "New Book Form" do
           fill_in "book_name", with: book_1_name
           fill_in "new_book_author", with: author_3_name
           fill_in "new_publisher_name", with: new_publisher_name
+          fill_in "book_year_published", :with => 1993
+          check genre_2.id
           click_on "Create New Book"
         }.to change(Publisher, :count).by(1)
       end
@@ -195,8 +205,10 @@ describe "New Book Form" do
         it "creates a new book in the database on submit" do
           expect {
             fill_in "book_name", with: book_1_name
-            fill_in "new_book_author", with: author_3_name
-            select existing_publisher_name, :from => "book_publisher"
+            fill_in "new_book_author", with: existing_author_name
+            select existing_publisher_name, :from => 'book_publisher'
+            fill_in "book_year_published", :with => 1993
+            check genre_2.id
             click_on "Create New Book"
           }.to change(Book, :count).by(1)
         end

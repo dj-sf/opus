@@ -68,6 +68,7 @@ describe "Book edit form" do
     end
 
     it "saves changes to the author's name when new author name is created" do
+      select "- select an author -", :from => 'book_author'
       fill_in "new_book_author", :with => changed_author_name
       click_on 'Edit Book'
       expect(Book.find(@id).author.name).to eq(changed_author_name)
@@ -75,6 +76,7 @@ describe "Book edit form" do
 
     it "creates a new author when a new author name is input" do
       expect{
+        select "- select an author -", :from => 'book_author'
         fill_in "new_book_author", :with => changed_author_name
         click_on 'Edit Book'
       }.to change(Author, :count).by(1)
@@ -99,6 +101,7 @@ describe "Book edit form" do
     end
 
     it "saves changes to the publisher's name when a new publisher name is created" do
+      select "- select a publisher -", :from => 'book_publisher'
       fill_in "new_publisher_name", :with => changed_publisher_name
       click_on 'Edit Book'
       expect(Book.find(@id).publisher.name).to eq(changed_publisher_name)
@@ -106,6 +109,7 @@ describe "Book edit form" do
 
     it "creates a new publisher when a new publisher name is passed in" do
       expect{
+        select "- select a publisher -", :from => 'book_publisher'
         fill_in "new_publisher_name", :with => changed_publisher_name
         click_on 'Edit Book'
       }.to change(Publisher, :count).by(1)

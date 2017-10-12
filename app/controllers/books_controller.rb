@@ -142,7 +142,7 @@ class BooksController < ApplicationController
       @publishers = Publisher.all
       @genres = Genre.all
       @book = Book.find_by_slug(params[:slug])
-      binding.pry
+
       if Helpers.current_user(session) == @book.user
         erb :'books/edit'
       else

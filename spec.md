@@ -8,7 +8,7 @@ Specs:
 - [x] Include user accounts
 - [x] Ensure that users can't modify content created by other users
 - [x] Include user input validations <!-- maybe do this using flash messages?? -->
-- [ ] Display validation failures to user with error message (example form URL e.g. /posts/new) <!-- see above -->
+- [x] Display validation failures to user with error message (example form URL e.g. /posts/new) <!-- see above -->
 - [ ] Your README.md includes a short description, install instructions, a contributors guide and a link to the license for your code
 
 Confirm

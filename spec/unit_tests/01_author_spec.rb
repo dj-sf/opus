@@ -3,16 +3,16 @@ require 'spec_helper'
 describe "Author" do
   before do
     @author = Author.create(:name => "Stephen King")
-
-    it = Book.create(:name => "It", :author => @author)
-
+    it = Book.create(:name => "It", :author_id => @author.id)
     horror = Genre.create(:name => "Horror")
-
     viking = Publisher.create(:name => "Viking Press")
-
+    it.year_published = 1987
     it.genres << horror
     it.publisher_id = viking.id
     it.author_id = @author.id
+
+    it.save
+    @author.save
   end
 
   it "can be initialized" do
