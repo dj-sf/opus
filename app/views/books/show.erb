@@ -1,3 +1,7 @@
+<% if flash.has?(:message) %>
+  <p style ="color:red"><em>*<%= flash[:message] %>*</em></p>
+<% end %>
+
 <h2 class='page_title'><%= @book.name %></h2>
 
 By: <a href='/authors/<%= @book.author.slug %>'><%= @book.author.name %></a> <br>
